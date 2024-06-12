@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "wiring_private.h"
 
 void setup() {
 
@@ -11,9 +12,7 @@ void setup() {
 
   //SET PA04 as comparator AIN0
   pinMode(A3, INPUT);
-  // Register addresses for SAM D21 as aliases are not provided
-  *(RwReg*)(0x41004444U) |= PORT_PINCFG_PMUXEN; // Enable MUX
-  *(RwReg*)(0x41004432U) |= PORT_PMUX_PMUXE_B; // Set MUX to channel B (AC_AIN0)
+  pinPeripheral(A3, PIO_AC_CLK);
 
   // Configure comparator 0
   REG_AC_COMPCTRL0 = AC_COMPCTRL_SPEED_HIGH | AC_COMPCTRL_MUXPOS_PIN0 | AC_COMPCTRL_MUXNEG_BANDGAP | AC_COMPCTRL_SWAP | AC_COMPCTRL_INTSEL_RISING | AC_COMPCTRL_HYST | AC_COMPCTRL_FLEN_MAJ5 | AC_COMPCTRL_ENABLE; // Configure and enable comparator 0
